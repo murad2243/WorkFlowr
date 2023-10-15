@@ -1,0 +1,186 @@
+<style>
+    .main-container{
+        display: flex;
+        /* padding: 20px; */
+
+        /* justify-content: space-between; */
+        gap: 20px;
+    }
+    .navbar {
+        padding: 0px 10px;
+        /* color: aliceblue; */
+        display: flex;
+        width: 100%;
+        /* border: 1px solid black; */
+        justify-content: space-between;
+        background-color: #737373
+    }
+    *{
+        padding: 0;
+        line-height: 30px;
+        margin: 0;
+    }
+    .sidebar{
+      width: 20%;
+      height: 100vh;
+      background-color: #474747;
+      padding: 20px;
+      /* margin: -10; */
+    }
+    button{
+      border: 0;
+      display: flex;
+      justify-content: center;
+      background-color: black;
+      color: white;
+      padding: 3px;
+      margin: auto;
+      width: fit-content;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover{
+      scale: 1.2;
+    }
+    .projectDiv{
+      
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: aliceblue;
+    }
+    .projectDiv:hover{
+      scale: 1.1;
+    }
+    input{
+      border-radius: 5px;
+      border: grey solid 1px;
+      margin: 5px;
+      padding: 3px;
+    }
+    form{
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      padding: 30px 10px;
+      /* width: 40%; */
+      /* text-align: center; */
+    }
+   .selectedProject{
+    width: 40%;
+    padding: 20px;
+
+    height: fit-content;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+   }
+   .deleteTask{
+    margin: 0 5px;
+    background-color: rgb(167, 167, 167);
+    padding: 3px;
+    font-size: small;
+   }
+   li{
+    display: flex;
+   }
+   .addTask{
+    margin: 5px auto;
+    background-color: rgb(0, 153, 255);
+   }
+   .logo{
+    height: 100px;
+   }
+   .tasks{
+    display: flex;
+    gap: 5px;
+   }
+   .profile{
+    height: 40px;
+    width: 40px;
+   }
+</style>
+<div class="navbar">
+  <img class="logo" src="../../assets/Workflowr.png" alt="">
+  <img class="profile" src="../../assets/profile.png" alt="">
+
+
+</div>
+<div class="main-container">
+    <!-- <app-dashboard /> -->
+<div class="sidebar">
+<div class="projectDiv" *ngFor="let project of projects; let i = index" (click)="selecteProject(project)">
+    <h3>{{ project.projectName }}</h3>
+    <!-- <p>Description: {{ project.description }}</p> -->
+    <!-- <p>Due Date: {{ project.dueDate }}</p> -->
+    <p>Admin Member: {{ project.adminMember }}</p>
+    <!-- <ul> -->
+        <!-- <li *ngFor="let task of project.tasks; let j = index"> -->
+          <!-- {{ task }} -->
+          <!-- <button (click)="deleteTask(i, j)">Delete Task</button> -->
+        <!-- </li> -->
+      <!-- </ul> -->
+    <button (click)="deleteProject(i)">Delete </button>
+    <!-- <button (click)="addMember(i)">Add Member</button> -->
+    <!-- <button (click)="addTask(i)">Add Task</button> -->
+    <!-- <button (click)="deleteTask(i, j)" *ngFor="let task of project.tasks">Delete Task</button> -->
+    
+  </div>
+</div>
+<div class="selectedProject" *ngIf="selectedFlag; else elseBlock">
+ 
+    <h3>{{ selected.projectName }}</h3>
+    <p> <strong>Description:</strong>  {{ selected.description }}</p>
+    <p> <strong>Due Date:</strong>  {{ selected.dueDate }}</p>
+    <p> <strong>Admin Member:</strong> {{ selected.adminMember }}</p>
+    <div class="tasks">
+      <strong>Tasks :</strong>
+      <ul>
+          <li *ngFor="let task of selected.tasks; let j = index">
+            {{ task }}
+            <button class="deleteTask" (click)="deleteTask(j)">Delete Task</button>
+          </li>
+        </ul>
+    </div>
+   
+    <!-- <button (click)="deleteProject(i)">Delete Project</button> -->
+    <!-- <button (click)="addMember(i)">Add Member</button> -->
+    <button class="addTask" (click)="addTask()">Add Task</button> 
+    <!-- <button (click)="deleteTask(i, j)" *ngFor="let task of project.tasks">Delete Task</button>
+    
+  </div>
+
+<!-- </div> -->
+
+  
+    
+    
+</div>
+<ng-template #elseBlock>
+    <p>
+        <ngb-alert type="custom" [dismissible]="false">please select any  <strong> project!</strong></ngb-alert>
+    </p>
+</ng-template>
+
+
+<div>
+    <form (submit)="addNewProject()">
+        <h2>Add New Project</h2>
+      <div>
+        <label for="projectName">Project Name:</label>
+        <input type="text" id="projectName" name="projectName" [(ngModel)]="newProject.projectName" required>
+      </div>
+      <div>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" [(ngModel)]="newProject.description" required>
+      </div>
+      <div>
+        <label for="dueDate">Due Date:</label>
+        <input type="date" id="dueDate" name="dueDate" [(ngModel)]="newProject.dueDate" required>
+      </div>
+      <div>
+        <label for="adminMember">Admin Member:</label>
+        <input type="text" id="adminMember" name="adminMember" [(ngModel)]="newProject.adminMember" required>
+      </div>
+      <button class="addTask" type="submit">Add Project</button>
+    </form>
+</div>
+
+</div>
